@@ -11,4 +11,15 @@ const connection = mysql.createConnection({
     ssl: { ca: fs.readFileSync('./ca-certificate.crt') }
 });
 
+const keepAliveInterval = 10000; // 10 seconds, adjust as needed
+setInterval(() => {
+    connection.ping((err) => {
+        if (err) {
+            console.log('Error pinging database:', err);
+        } else {
+            console.log('Database ping successful');
+        }
+    });
+}, keepAliveInterval);
+
 module.exports = {connection};
